@@ -1,0 +1,20 @@
+<div class="container mt-3 jumbotron">
+    <h3 class="text-primary">Ingrese Producto</h3>
+    <form action="/productos" method="post">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="precio">Precio</label>
+            <input type="number" name="precio" id="precio" step=".01" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="fotoUrl">Foto URL</label>
+            <input type="text" name="fotoUrl" id="fotoUrl" class="form-control">
+        </div>
+        <input type="submit" value="Enviar" class="btn btn-success">
+        <br><br>
+        <a class="btn btn-primary" href="/productos">Ver Productos cargados</a>
+    </form>
+</div>

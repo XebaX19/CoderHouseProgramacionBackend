@@ -1,0 +1,17 @@
+extends ./layout
+block main
+    h3(class="text-primary") Ingrese Producto
+    form(action="/productos" method="post")
+        div(class="form-group")
+            label(for="nombre") Nombre
+            input(type="text", name="nombre", id="nombre", class="form-control")
+        div(class="form-group")
+            label(for="precio") Precio
+            input(type="number", name="precio", id="precio", step=".01", class="form-control")
+        div(class="form-group")
+            label(for="fotoUrl") Foto
+            input(type="text", name="fotoUrl", id="fotoUrl", class="form-control")
+        input(type="submit", value="Enviar", class="btn btn-success")
+        br
+        br
+        a(class="btn btn-primary", href="/productos") Ver Productos cargados
