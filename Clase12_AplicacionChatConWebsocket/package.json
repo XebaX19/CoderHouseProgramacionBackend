@@ -1,0 +1,21 @@
+{
+  "name": "clase-12---aplicacion-chat-con-websocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "clase12.js",
+  "engines": {
+    "node": "16.x"
+  },
+  "scripts": {
+    "start": "node .",
+    "start-dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "moment": "^2.29.1",
+    "socket.io": "^4.4.1"
+  }
+}
