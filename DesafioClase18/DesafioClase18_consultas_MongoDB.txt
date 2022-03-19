@@ -1,0 +1,48 @@
+mongosh -u root
+
+use ecommerce
+
+db.createCollection('mensajes')
+db.createCollection('productos')
+
+db.productos.insertMany([{title: 'Escuadra', price: 323.45, thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Squadra_45.jpg'},{title: 'Calculadora', price: 4500.56, thumbnail: 'https://exitocol.vtexassets.com/arquivos/ids/257195/Calculadora-Cientifica-Graficadora.jpg'},{title: 'Globo Terráqueo', price: 2340.67, thumbnail: 'https://panamericana.vteximg.com.br/arquivos/ids/256800-600-690/globo-terraqueo-politico-40-cm-7701016736787.jpg?v=636381897120030000'},{title: 'Paleta Pintura', price: 1456.78, thumbnail: 'https://www.botiga.com.uy/media/catalog/product/cache/1/image/600x600/0dc2d03fe217f8c83829496872af24a0/p/a/paleta_pintora_tempera_infantozzi_materiales.jpg'},{title: 'Reloj', price: 999.89, thumbnail: 'https://us.123rf.com/450wm/monticello/monticello1911/monticello191100379/135078958-reloj-de-pared-aislado-sobre-fondo-blanco-nueve-.jpg?ver=6'},{title: 'Agenda', price: 780.90, thumbnail: 'https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg'},{title: 'Escudo caballero templario', price: 4560.71, thumbnail: 'https://www.tienda-medieval.com/blog/wp-content/uploads/2010/09/escudo_templario1.jpg'},{title: 'Escorpión de juguete', price: 1000.87, thumbnail: 'https://sc04.alicdn.com/kf/H5794a667d8844b0592a7a76e8724842bt.jpg'},{title: 'Lapicera', price: 256.11, thumbnail: ''},{title: 'Lapiz', price: 167.22, thumbnail: ''}])
+db.mensajes.insertMany([{email: 'juan@gmail.com', mensaje: 'hola!', time: new Date('2022-03-19T14:12:02Z')},{email: 'juan@gmail.com', mensaje: 'todo bien?', time: new Date('2022-03-19T14:12:12Z')},{email: 'pedro@gmail.com', mensaje: 'hola Juan!', time: new Date('2022-03-19T14:13:00Z')},{email: 'pedro@gmail.com', mensaje: 'todo bien, vos?', time: new Date('2022-03-19T14:13:14Z')},{email: 'juan@gmail.com', mensaje: 'todo bien', time: new Date('2022-03-19T14:13:34Z')},{email: 'juan@gmail.com', mensaje: 'agregando nuevos productos', time: new Date('2022-03-19T14:13:45Z')},{email: 'pedro@gmail.com', mensaje: 'buenisimo', time: new Date('2022-03-19T14:14:06Z')},{email: 'pedro@gmail.com', mensaje: 'estoy viendo que se van actualizando', time: new Date('2022-03-19T14:14:36Z')},{email: 'juan@gmail.com', mensaje: 'perfecto', time: new Date('2022-03-19T14:14:45Z')},{email: 'juan@gmail.com', mensaje: 'viene funcionando bien el websocket!', time: new Date('2022-03-19T14:15:02Z')}])
+
+db.productos.find()
+db.mensajes.find()
+
+db.productos.countDocuments()
+db.mensajes.countDocuments()
+
+db.productos.insertOne({title: 'Pincel', price: 439.99, thumbnail: 'https://us.123rf.com/450wm/roxiller/roxiller1608/roxiller160800299/62996252-el-cepillo-de-pintura-para-el-dibujo-o-el-maquillaje-realista-aislado-en-el-fondo-blanco-ilustraci%C3%B3n.jpg?ver=6'})
+
+db.productos.find({title: 'Calculadora'})
+
+db.productos.find({price: {$lt: 1000}})
+
+db.productos.find({price: {$gte: 1000, $lte: 3000}})
+
+db.productos.find({price: {$gt: 3000}})
+
+db.productos.find({}, {_id: 0, title: 1}).sort({price: 1}).skip(2).limit(1)
+
+db.productos.updateMany({}, {$set: {stock: 100}})
+
+db.productos.updateMany({price: {$gt: 4000}}, {$set: {stock: 0}})
+
+db.productos.deleteMany({price: {$lt: 1000}})
+
+---------------------------------------------------------------------------------------------
+
+mongosh -u root
+
+use admin
+
+db.createUser({user: 'pepe', pwd: 'asd456', roles: [{role: 'read', db: 'ecommerce'}]})
+
+mongosh -u pepe
+
+use ecommerce
+
+db.productos.insertOne({title: 'Pincel', price: 439.99, thumbnail: 'https://us.123rf.com/450wm/roxiller/roxiller1608/roxiller160800299/62996252-el-cepillo-de-pintura-para-el-dibujo-o-el-maquillaje-realista-aislado-en-el-fondo-blanco-ilustraci%C3%B3n.jpg?ver=6'})
+MongoServerError: not authorized on ecommerce to execute command { insert: "productos"...
