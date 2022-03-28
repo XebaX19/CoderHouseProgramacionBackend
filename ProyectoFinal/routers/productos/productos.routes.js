@@ -4,103 +4,103 @@ const router = express.Router();
 const authMiddleware = require('../../middlewares/authorizer');
 
 //Importación de clases
-const Producto = require('../../data/Producto');
-const Contenedor = require('../../data/Contenedor');
-const productosArchivo = new Contenedor('productos.txt');
+const { ProductosDao } = require('../../models/daos/index');
+const productosDao = new ProductosDao();
 
 //Routes (/api/productos)
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 
     //Si recibo un id en req.query, muestro el producto en particular, caso contrario muestro todos los productos
     const { id } = req.query;
 
     if (id) {
-        productosArchivo.getById(id).then(prod => {
-            if (prod === null) {
-                return res.status(404).json({ mensaje: `No se encontró el producto con id ${id}` });
-            }
-    
-            return res.json(prod);
-        }); 
+        const resultado = await productosDao.getById(id);
+
+        if (resultado === -1) {
+            return res.status(500).json({ mensaje: `Hubo un error al buscar el producto con id ${id}` });
+        }
+        if (resultado === null) {
+            return res.status(404).json({ mensaje: `No se encontró el producto con id ${id}` });
+        }
+
+        return res.json(resultado);
     } else {
-        productosArchivo.getAll().then(prods => {
-            if (prods.length === 0) {
-                return res.status(404).json({ mensaje: "No se encontraron productos" });
-            }
-    
-            return res.json(prods);
-        });
+        const resultado = await productosDao.getAll();
+        
+        if (resultado === -1) {
+            return res.status(500).json({ mensaje: 'Hubo un error al buscar todos los productos' });
+        }
+        if (resultado.length === 0) {
+            return res.status(404).json({ mensaje: 'No se encontraron productos' });
+        }
+
+        return res.json(resultado);
     }
 });
 
-router.post('/', authMiddleware, (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
     const { nombre, descripcion, codigo, fotoUrl, precio, stock } = req.body;
 
     if (!nombre || !descripcion || !codigo || !fotoUrl || !precio || !stock) {
         return res.status(400).json({ error: 'El formato del Body enviado es incorrecto' });
     }
 
-    let nuevoProducto = new Producto(nombre, descripcion, codigo, fotoUrl, precio, stock);
-    productosArchivo.save(nuevoProducto).then(id => {
-        if (id < 0) {
-            return res.status(500).json({ error: 'Error al agregar producto' });
-        }
+    const newProducto = { nombre, descripcion, codigo, fotoUrl, precio, stock };
 
-        nuevoProducto.id = id;
-        return res.json({ mensaje: "Producto agregado", nuevoProducto });
-    });
+    const resultado = await productosDao.save(newProducto);
+
+    if (resultado === -1) {
+        return res.status(500).json({ error: 'Error al agregar producto' });
+    } else {
+        return res.json({ mensaje: 'Producto agregado', nuevoProducto: resultado });
+    }
 });
 
-router.put('/:id', authMiddleware, (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
     const { params: { id }, body: { nombre, descripcion, codigo, fotoUrl, precio, stock } } = req;
 
     if (!nombre || !descripcion || !codigo || !fotoUrl || !precio || !stock) {
         return res.status(400).json({ error: 'El formato del Body enviado es incorrecto' });
     }
 
-    productosArchivo.getAll().then(productos => {
-        const productoIndex = productos.findIndex(product => product.id === +id);
+    const resultadoBusqueda = await productosDao.getById(id);
 
-        if (productoIndex < 0) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
+    if (resultadoBusqueda === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el producto con id ${id}` });
+    }
+    if (resultadoBusqueda === null) {
+        return res.status(404).json({ mensaje: `No se encontró el producto con id ${id}` });
+    }
 
-        let productoActualizado = productos[productoIndex];
-        productoActualizado.nombre = nombre;
-        productoActualizado.descripcion = descripcion;
-        productoActualizado.codigo = codigo;
-        productoActualizado.fotoUrl = fotoUrl;
-        productoActualizado.precio = precio;
-        productoActualizado.stock = stock;
+    let productoActualizado = { nombre, descripcion, codigo, fotoUrl, precio, stock };
+    const resultadoActualiza = await productosDao.update(id, productoActualizado);
 
-        productosArchivo.update(productoActualizado).then((actualizadoOk) => {
-            if (!actualizadoOk) {
-                return res.status(500).json({ error: 'Error al modificar producto' });
-            }
+    if (resultadoActualiza === -1) {
+        return res.status(500).json({ error: 'Error al modificar producto' });
+    }
 
-            return res.json({ mensaje: "Producto modificado", productoActualizado });
-        });
-    });
+    return res.json({ mensaje: 'Producto modificado', productoActualizado: resultadoActualiza });
 });
 
-router.delete('/:id', authMiddleware, (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
 
-    productosArchivo.getAll().then(productos => {
-        const productoIndex = productos.findIndex(product => product.id === +id);
+    const resultadoBusqueda = await productosDao.getById(id);
 
-        if (productoIndex < 0) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
+    if (resultadoBusqueda === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el producto con id ${id}` });
+    }
+    if (resultadoBusqueda === null) {
+        return res.status(404).json({ mensaje: `No se encontró el producto con id ${id}` });
+    }
 
-        productosArchivo.deleteById(id).then((eliminadoOk) => {
-            if (!eliminadoOk) {
-                return res.status(500).json({ error: 'Error al eliminar producto' });
-            }
+    const resultadoEliminacion= await productosDao.deleteById(id);
 
-            return res.json({ mensaje: "Producto eliminado" });
-        });
-    });
+    if (!resultadoEliminacion) {
+        return res.status(500).json({ error: 'Error al eliminar producto' });
+    }
+
+    return res.json({ mensaje: 'Producto eliminado' });
 });
 
 module.exports = router;

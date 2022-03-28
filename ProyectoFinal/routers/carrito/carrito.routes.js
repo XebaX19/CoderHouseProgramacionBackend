@@ -2,112 +2,127 @@
 const express = require('express');
 const router = express.Router();
 
-//Importación de clase Contenedor
-const Carrito = require('../../data/Carrito');
-const Contenedor = require('../../data/Contenedor');
-const carritosArchivo = new Contenedor('carritos.txt');
-const productosArchivo = new Contenedor('productos.txt');
+//Importación de clases
+const { CarritoDao, ProductosDao } = require('../../models/daos/index');
+const carritoDao = new CarritoDao();
+const productosDao = new ProductosDao();
 
 //Routes (/api/carrito)
-router.post('/', (req, res) => {
-    let nuevoCarrito = new Carrito([]);
-    carritosArchivo.save(nuevoCarrito).then(id => {
-        if (id < 0) {
-            return res.status(500).json({ error: 'Error al agregar carrito' });
-        }
+router.post('/', async (req, res) => {
+    const newCarrito = {productos: []};
 
-        nuevoCarrito.id = id;
-        return res.json({ mensaje: "Carrito agregado", id });
-    });
+    const resultado = await carritoDao.save(newCarrito);
+
+    if (resultado === -1) {
+        return res.status(500).json({ error: 'Error al agregar carrito' });
+    } else {
+        return res.json({ mensaje: 'Carrito agregado', nuevoCarrito: resultado });
+    }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 
-    carritosArchivo.getAll().then(carritos => {
-        const carritoIndex = carritos.findIndex(carrito => carrito.id === +id);
+    const resultadoBusqueda = await carritoDao.getById(id);
 
-        if (carritoIndex < 0) {
-            return res.status(404).json({ error: 'Carrito no encontrado' });
-        }
+    if (resultadoBusqueda === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el carrito con id ${id}` });
+    }
+    if (resultadoBusqueda === null) {
+        return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
+    }
 
-        carritosArchivo.deleteById(id).then((eliminadoOk) => {
-            if (!eliminadoOk) {
-                return res.status(500).json({ error: 'Error al eliminar carrito' });
-            }
+    const resultadoEliminacion= await carritoDao.deleteById(id);
 
-            return res.json({ mensaje: "Carrito eliminado" });
-        });
-    });
+    if (!resultadoEliminacion) {
+        return res.status(500).json({ error: 'Error al eliminar carrito' });
+    }
+
+    return res.json({ mensaje: 'Carrito eliminado' });
 });
 
-router.get('/:id/productos', (req, res) => {
+router.get('/:id/productos', async (req, res) => {
     const { id } = req.params;
 
-    carritosArchivo.getById(id).then(carrito => {
-        if (carrito === null) {
-            return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
-        }
+    const resultadoBusqueda = await carritoDao.getById(id);
 
-        return res.json({productos: carrito.productos});
-    }); 
+    if (resultadoBusqueda === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el carrito con id ${id}` });
+    }
+    if (resultadoBusqueda === null) {
+        return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
+    }
+
+    return res.json({productos: resultadoBusqueda.productos});
 });
 
-router.post('/:id/productos/:id_prod', (req, res) => {
+router.post('/:id/productos/:id_prod', async (req, res) => {
     const { id, id_prod } = req.params;
 
-    carritosArchivo.getById(+id).then(carrito => {
-        if (carrito === null) {
-            return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
-        }
+    //Búsqueda carrito
+    const resultadoBusquedaCarrito = await carritoDao.getById(id);
 
-        productosArchivo.getById(+id_prod).then(producto => {
-            if (producto === null) {
-                return res.status(404).json({ mensaje: `No se encontró el producto con id ${id_prod}` });
-            }
+    if (resultadoBusquedaCarrito === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el carrito con id ${id}` });
+    }
+    if (resultadoBusquedaCarrito === null) {
+        return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
+    }
 
-            carrito.productos.push(producto);
+    //Búsqueda producto
+    const resultadoBusquedaProducto = await productosDao.getById(id_prod);
 
-            carritosArchivo.update(carrito).then(actualizadoOk => {
-                if (!actualizadoOk) {
-                    return res.status(500).json({ error: 'Error al agregar producto al carrito' });
-                }
-    
-                return res.json({ mensaje: "Producto agregado al carrito" });
-            }); 
-        }); 
-    }); 
+    if (resultadoBusquedaProducto === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el producto con id ${id_prod}` });
+    }
+    if (resultadoBusquedaProducto === null) {
+        return res.status(404).json({ mensaje: `No se encontró el producto con id ${id_prod}` });
+    }
+
+    //Agrega producto a carrito
+    const resultadoAdd = await carritoDao.addItemToArray('productos', resultadoBusquedaCarrito, resultadoBusquedaProducto);
+
+    if (!resultadoAdd) {
+        return res.status(500).json({ error: 'Error al agregar producto al carrito' });
+    }
+
+    return res.json({ mensaje: 'Producto agregado al carrito' });
 });
 
-router.delete('/:id/productos/:id_prod', (req, res) => {
+router.delete('/:id/productos/:id_prod', async (req, res) => {
     const { id, id_prod } = req.params;
 
-    carritosArchivo.getById(+id).then(carrito => {
-        if (carrito === null) {
-            return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
-        }
+    //Búsqueda carrito
+    const resultadoBusquedaCarrito = await carritoDao.getById(id);
 
-        productosArchivo.getById(+id_prod).then(producto => {
-            if (producto === null) {
-                return res.status(404).json({ mensaje: `No se encontró el producto con id ${id_prod}` });
-            }
+    if (resultadoBusquedaCarrito === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el carrito con id ${id}` });
+    }
+    if (resultadoBusquedaCarrito === null) {
+        return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
+    }
 
-            const indexProducto = carrito.productos.findIndex(prod => prod.id === +id_prod);
-            
-            if (indexProducto < 0) {
-                return res.status(404).json({ mensaje: `El carrito no contiene un producto con id ${id_prod}` });
-            }
-            
-            carrito.productos.splice(indexProducto, 1);
-            carritosArchivo.update(carrito).then(actualizadoOk => {
-                if (!actualizadoOk) {
-                    return res.status(500).json({ error: 'Error al eliminar producto del carrito' });
-                }
-    
-                return res.json({ mensaje: "Producto eliminado del carrito" });
-            }); 
-        }); 
-    }); 
+    //Búsqueda producto
+    const resultadoBusquedaProducto = await productosDao.getById(id_prod);
+
+    if (resultadoBusquedaProducto === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el producto con id ${id_prod}` });
+    }
+    if (resultadoBusquedaProducto === null) {
+        return res.status(404).json({ mensaje: `No se encontró el producto con id ${id_prod}` });
+    }
+
+    //Elimina producto de carrito
+    const resultadoEliminacion = await carritoDao.removeItemFromArray('productos', resultadoBusquedaCarrito, resultadoBusquedaProducto);
+
+    if (resultadoEliminacion === -1) {
+        return res.status(404).json({ mensaje: `No se encontró el producto con id ${id_prod} dentro del carrito con id ${id}` });
+    }
+    if (!resultadoEliminacion) {
+        return res.status(500).json({ error: 'Error al eliminar producto del carrito' });
+    }
+
+    return res.json({ mensaje: 'Producto eliminado del carrito' });
 });
 
 module.exports = router;

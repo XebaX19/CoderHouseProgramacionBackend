@@ -1,32 +1,32 @@
 [
   {
-    "id": 1,
-    "timestamp": 1646549774841,
     "nombre": "Calculadora",
     "descripcion": "Calculadora cientifica",
     "codigo": "P001",
     "fotoUrl": "https://exitocol.vtexassets.com/arquivos/ids/257195/Calculadora-Cientifica-Graficadora.jpg",
     "precio": 1456.15,
-    "stock": 12
+    "stock": 12,
+    "timestamp": "2022-03-28T17:51:56.043Z",
+    "id": 1
   },
   {
-    "id": 2,
-    "timestamp": 1646549833098,
     "nombre": "Reloj",
     "descripcion": "Reloj de pared",
     "codigo": "P002",
     "fotoUrl": "https://us.123rf.com/450wm/monticello/monticello1911/monticello191100379/135078958-reloj-de-pared-aislado-sobre-fondo-blanco-nueve-.jpg?ver=6",
     "precio": 974.99,
-    "stock": 7
+    "stock": 7,
+    "timestamp": "2022-03-28T17:52:56.043Z",
+    "id": 2
   },
   {
-    "id": 3,
-    "timestamp": 1646549880708,
     "nombre": "Agenda",
     "descripcion": "Agenda 2022",
     "codigo": "P003",
     "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
     "precio": 674.35,
-    "stock": 22
+    "stock": 22,
+    "timestamp": "2022-03-28T17:53:56.043Z",
+    "id": 3
   }
 ]

@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 //Importamos index del router
-const apiRoutes = require('./routers/index')
+const apiRoutes = require('./routers/index');
 
 // Middlewares
 //app.use(express.static('public')); 
@@ -35,4 +35,4 @@ const connectedServer = app.listen(PORT, () => {
 //Definimos manejo de errores
 connectedServer.on('error', (error) => {
     console.error('Error: ', error);
-})
+});
