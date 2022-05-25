@@ -1,5 +1,6 @@
 const { getFirestore } = require('firebase-admin/firestore');
 const { admin } = require('../../db/firebase/firebase.config');
+const logger = require('../../logger/index');
 
 class ContenedorFirebase {
     constructor(coll) {
@@ -17,7 +18,7 @@ class ContenedorFirebase {
             objeto.id = docRef.id;
 
         } catch (err) {
-            console.log(`Hubo un error al guardar: ${err.message}`);
+            logger.error(`Hubo un error al guardar: ${err.message}`);
             return -1;
         }
 
@@ -32,7 +33,7 @@ class ContenedorFirebase {
             await docRef.update(objeto);
             objeto.id = docRef.id;
         } catch (err) {
-            console.log(`Hubo un error al modificar: ${err.message}`);
+            logger.error(`Hubo un error al modificar: ${err.message}`);
             return -1;
         }
 
@@ -51,7 +52,7 @@ class ContenedorFirebase {
                 objeto.id = docRef.id;
             }
         } catch (err) {
-            console.log(`Hubo un error al obtener el item: ${err.message}`);
+            logger.error(`Hubo un error al obtener el item: ${err.message}`);
             return -1;
         }
 
@@ -70,7 +71,7 @@ class ContenedorFirebase {
               id: document.id
             }));
         } catch (err) {
-            console.log(`Hubo un error al obtener todos los items: ${err.message}`);
+            logger.error(`Hubo un error al obtener todos los items: ${err.message}`);
             return -1;
         }
 
@@ -84,7 +85,7 @@ class ContenedorFirebase {
             const docRef = this.query.doc(id);
             await docRef.delete();
         } catch (err) {
-            console.log(`Hubo un error al eliminar: ${err.message}`);
+            logger.error(`Hubo un error al eliminar: ${err.message}`);
             return false;
         }
 
@@ -100,7 +101,7 @@ class ContenedorFirebase {
             const docRef = this.query.doc(objeto.id);
             await docRef.update(objeto);
         } catch (err) {
-            console.log(`Hubo un error al agregar el item al array: ${err.message}`);
+            logger.error(`Hubo un error al agregar el item al array: ${err.message}`);
             return false;
         }
 
@@ -122,7 +123,7 @@ class ContenedorFirebase {
             const docRef = this.query.doc(objeto.id);
             await docRef.update(objeto);
         } catch (err) {
-            console.log(`Hubo un error al eliminar el item del array: ${err.message}`);
+            logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);
             return false;
         }
 

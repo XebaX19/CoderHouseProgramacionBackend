@@ -1,3 +1,5 @@
+const logger = require('../../logger/index');
+
 class ContenedorMemory {
     constructor(array) {
         this.list = array;
@@ -15,7 +17,7 @@ class ContenedorMemory {
             objeto.id = id+1;
             this.list.push(objeto);
         } catch (err) {
-            console.log(`Hubo un error al guardar: ${err.message}`);
+            logger.error(`Hubo un error al guardar: ${err.message}`);
             return -1;
         }
 
@@ -35,7 +37,7 @@ class ContenedorMemory {
 
             this.list[itemIndex] = objeto;
         } catch (err) {
-            console.log(`Hubo un error al modificar: ${err.message}`);
+            logger.error(`Hubo un error al modificar: ${err.message}`);
             return -1;
         }
 
@@ -54,7 +56,7 @@ class ContenedorMemory {
 
             objeto = this.list[itemIndex];
         } catch (err) {
-            console.log(`Hubo un error al obtener el objeto: ${err.message}`);
+            logger.error(`Hubo un error al obtener el objeto: ${err.message}`);
             return -1;
         }
 
@@ -70,7 +72,7 @@ class ContenedorMemory {
                 arrayObjetos = this.list;
             }
         } catch (err) {
-            console.log(`Hubo un error al obtener todos los objetos: ${err.message}`);
+            logger.error(`Hubo un error al obtener todos los objetos: ${err.message}`);
             return -1;
         }
 
@@ -88,7 +90,7 @@ class ContenedorMemory {
 
             this.list.splice(itemIndex, 1);
         } catch (err) {
-            console.log(`Hubo un error al eliminar el objeto: ${err.message}`);
+            logger.error(`Hubo un error al eliminar el objeto: ${err.message}`);
             return false;
         }
 
@@ -108,7 +110,7 @@ class ContenedorMemory {
 
             this.list[itemIndex] = objeto;
         } catch (err) {
-            console.log(`Hubo un error al agregar el item al array: ${err.message}`);
+            logger.error(`Hubo un error al agregar el item al array: ${err.message}`);
             return false;
         }
 
@@ -130,7 +132,7 @@ class ContenedorMemory {
             const itemIndex = this.list.findIndex(elemento => elemento.id === objeto.id);
             this.list[itemIndex] = objeto;
         } catch (err) {
-            console.log(`Hubo un error al eliminar el item del array: ${err.message}`);
+            logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);
             return false;
         }
 

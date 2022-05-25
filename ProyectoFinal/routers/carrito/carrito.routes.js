@@ -1,6 +1,10 @@
 //Importamos librerías
 const express = require('express');
 const router = express.Router();
+const { enviarEmail } = require('../../utils/envioMails');
+const { enviarWhatsapp } = require('../../utils/envioWhatsapp');
+const { enviarSMS } = require('../../utils/envioSMS');
+const env = require('../../env.config');
 
 //Importación de clases
 const { CarritoDao, ProductosDao } = require('../../models/daos/index');
@@ -123,6 +127,43 @@ router.delete('/:id/productos/:id_prod', async (req, res) => {
     }
 
     return res.json({ mensaje: 'Producto eliminado del carrito' });
+});
+
+router.post('/:id/confirmaPedido', async (req, res) => {
+    const { id } = req.params;
+    const { nombreUsuario, nroTelefonoUsuario } = req.body;
+
+    const resultadoBusqueda = await carritoDao.getById(id);
+
+    if (resultadoBusqueda === -1) {
+        return res.status(500).json({ mensaje: `Hubo un error al buscar el carrito con id ${id}` });
+    }
+    if (resultadoBusqueda === null) {
+        return res.status(404).json({ mensaje: `No se encontró el carrito con id ${id}` });
+    }
+    if (resultadoBusqueda.productos.length === 0) {
+        return res.status(404).json({ mensaje: `No se encontraron productos asociados al carrito con id ${id}` });
+    }
+
+    //Bajar stock de cada producto que contiene el carrito
+    //Setear carrito como "confirmado"
+
+    const productos = JSON.stringify(resultadoBusqueda.productos, null, 2);
+    
+    //Envío e-mail al administrador
+    enviarEmail(env.EMAIL_ADMINISTRATOR, `Nuevo pedido de: ${nombreUsuario}`, productos);
+
+    //Envío Whatsapp al administrador
+    enviarWhatsapp(env.CEL_ADMINISTRATOR, `
+Nuevo pedido de: ${nombreUsuario}
+
+Productos:
+${productos}`);
+
+    //Envío SMS al cliente
+    enviarSMS(nroTelefonoUsuario, 'Su pedido ha sido recibido y se encuentra en proceso.')
+
+    return res.json({pedidoConfirmado: 'OK'});
 });
 
 module.exports = router;

@@ -1,3 +1,5 @@
+const logger = require('../../logger/index');
+
 class ContenedorFileSystem {
     constructor(nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
@@ -23,7 +25,7 @@ class ContenedorFileSystem {
             await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
 
         } catch (err) {
-            console.log(`Hubo un error al guardar: ${err.message}`);
+            logger.error(`Hubo un error al guardar: ${err.message}`);
             return -1;
         }
 
@@ -48,7 +50,7 @@ class ContenedorFileSystem {
                 await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
             }
         } catch (err) {
-            console.log(`Hubo un error al modificar: ${err.message}`);
+            logger.error(`Hubo un error al modificar: ${err.message}`);
             return -1;
         }
 
@@ -76,7 +78,7 @@ class ContenedorFileSystem {
             //Si entra al catch porque no existe el archivo, no muestro error...devuelve array vacío
             //Sólo muestro el error si se debe a otro problema
             if (err.code != 'ENOENT') {
-                console.log(`Hubo un error al obtener el objeto: ${err.message}`);
+                logger.error(`Hubo un error al obtener el objeto: ${err.message}`);
                 return -1;
             }
         }
@@ -98,7 +100,7 @@ class ContenedorFileSystem {
             //Si entra al catch porque no existe el archivo, no muestro error...devuelve array vacío
             //Sólo muestro el error si se debe a otro problema
             if (err.code != 'ENOENT') {
-                console.log(`Hubo un error al obtener todos los objetos: ${err.message}`);
+                logger.error(`Hubo un error al obtener todos los objetos: ${err.message}`);
                 return -1;
             }
         }
@@ -126,7 +128,7 @@ class ContenedorFileSystem {
                 }
             }
         } catch (err) {
-            console.log(`Hubo un error al eliminar el objeto: ${err.message}`);
+            logger.error(`Hubo un error al eliminar el objeto: ${err.message}`);
         }
 
         return eliminado;
@@ -151,7 +153,7 @@ class ContenedorFileSystem {
                 await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
             }
         } catch (err) {
-            console.log(`Hubo un error al agregar el item al array: ${err.message}`);
+            logger.error(`Hubo un error al agregar el item al array: ${err.message}`);
             return false;
         }
 
@@ -182,7 +184,7 @@ class ContenedorFileSystem {
                 await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
             }
         } catch (err) {
-            console.log(`Hubo un error al eliminar el item del array: ${err.message}`);
+            logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);
             return false;
         }
 

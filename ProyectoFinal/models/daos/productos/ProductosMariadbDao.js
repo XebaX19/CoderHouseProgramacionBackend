@@ -1,5 +1,5 @@
 const ContenedorSQL = require('../../contenedores/ContenedorSQL');
-const dbconfig = require('../../../db/sql/config');
+const dbconfig = require('../../../db/config');
 
 class ProductosMariadbDao extends ContenedorSQL {
     constructor() {

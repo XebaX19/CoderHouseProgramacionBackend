@@ -1,4 +1,5 @@
 const path = require('path');
+const env = require('../env.config');
 
 module.exports = {
     mariaDB: {
@@ -16,5 +17,8 @@ module.exports = {
         connection: {
             filename: path.resolve(__dirname, './ecommerce.sqlite') 
         }
+    },
+    mongodb: {
+        connectTo: (database) => `mongodb+srv://XebaX:${env.DB_PASSWORD}@xebaxfree.6gtqe.mongodb.net/${database}?retryWrites=true&w=majority`,
     }
 }

@@ -1,5 +1,6 @@
-const dbconfig = require('./config');
+const dbconfig = require('../config');
 const knex = require('knex')(dbconfig.sqlite);
+const logger = require('../../logger/index');
 
 (async () => {
     try {
@@ -17,9 +18,9 @@ const knex = require('knex')(dbconfig.sqlite);
                 table.decimal('precio', 13, 2).notNullable().unsigned();
                 table.integer('stock').notNullable().unsigned();
             });
-            console.log('Tabla "productos" creada!');
+            logger.info('Tabla "productos" creada!');
         } else {
-            console.log('La tabla "productos" ya existe');
+            logger.info('La tabla "productos" ya existe');
         }
 
         //Tabla carritos
@@ -29,9 +30,9 @@ const knex = require('knex')(dbconfig.sqlite);
                 table.increments('id');
                 table.timestamp('timestamp').defaultTo(knex.fn.now());
             });
-            console.log('Tabla "carritos" creada!');
+            logger.info('Tabla "carritos" creada!');
         } else {
-            console.log('La tabla "carritos" ya existe');
+            logger.info('La tabla "carritos" ya existe');
         }
 
         //Tabla carrito_productos
@@ -42,13 +43,13 @@ const knex = require('knex')(dbconfig.sqlite);
                 table.integer('id_carrito').unsigned().references('id').inTable('carritos');
                 table.integer('id_producto').unsigned().references('id').inTable('productos');
             });
-            console.log('Tabla "carrito_productos" creada!');
+            logger.info('Tabla "carrito_productos" creada!');
         } else {
-            console.log('La tabla "carrito_productos" ya existe');
+            logger.info('La tabla "carrito_productos" ya existe');
         }
         
     } catch (error) {
-        console.log(error);
+        logger.error(error);
         throw error;
     }
     finally {

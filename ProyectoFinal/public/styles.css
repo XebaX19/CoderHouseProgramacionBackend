@@ -1,0 +1,31 @@
+.input-file {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.input-file:hover {
+  background-color: beige;
+}
+
+.clear-button {
+  position: relative;
+  left: 16px;
+  font-family: var(--ff-primary);
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #ef5350 ;
+  color: white;
+  border-radius: 5px;
+  padding: 6px 5px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.clear-button:hover {
+  background-color: black;
+  color: #ef5350;
+}

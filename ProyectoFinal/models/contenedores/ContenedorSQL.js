@@ -1,3 +1,5 @@
+const logger = require('../../logger/index');
+
 class ContenedorSQL {
     constructor(configDB, tabla) {
         this.configDB = configDB;
@@ -17,7 +19,7 @@ class ContenedorSQL {
             newItem = await this.knex(this.tabla).insert(objeto);
             objeto.id = newItem[0];
         } catch (err) {
-            console.log(`Hubo un error al guardar: ${err.message}`);
+            logger.error(`Hubo un error al guardar: ${err.message}`);
             return -1;
         }
 
@@ -31,7 +33,7 @@ class ContenedorSQL {
             await this.knex.from(this.tabla).where({id}).update(objeto);
             objeto.id = id;
         } catch (err) {
-            console.log(`Hubo un error al modificar: ${err.message}`);
+            logger.error(`Hubo un error al modificar: ${err.message}`);
             return -1;
         }
 
@@ -66,7 +68,7 @@ class ContenedorSQL {
                 }
             }
         } catch (err) {
-            console.log(`Hubo un error al obtener el item: ${err.message}`);
+            logger.error(`Hubo un error al obtener el item: ${err.message}`);
             return -1;
         }
 
@@ -80,7 +82,7 @@ class ContenedorSQL {
         try {
             arrayObjetos = await this.knex.from(this.tabla).select('*');
         } catch (err) {
-            console.log(`Hubo un error al obtener todos los items: ${err.message}`);
+            logger.error(`Hubo un error al obtener todos los items: ${err.message}`);
             return -1;
         }
 
@@ -93,7 +95,7 @@ class ContenedorSQL {
         try {
             await this.knex.from(this.tabla).where({id}).del();
         } catch (err) {
-            console.log(`Hubo un error al eliminar: ${err.message}`);
+            logger.error(`Hubo un error al eliminar: ${err.message}`);
             return false;
         }
 
@@ -107,7 +109,7 @@ class ContenedorSQL {
             const newItem = {id_carrito: objeto.id, id_producto: item.id};
             await this.knex('carrito_productos').insert(newItem);
         } catch (err) {
-            console.log(`Hubo un error al agregar el item al array: ${err.message}`);
+            logger.error(`Hubo un error al agregar el item al array: ${err.message}`);
             return false;
         }
 
@@ -127,7 +129,7 @@ class ContenedorSQL {
 
             await this.knex.from('carrito_productos').where({id: itemEliminar.id}).del();
         } catch (err) {
-            console.log(`Hubo un error al eliminar el item del array: ${err.message}`);
+            logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);
             return false;
         }
 

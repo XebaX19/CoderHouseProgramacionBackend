@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const logger = require('../../logger/index');
+const configDB = require('../../db/config');
 
 const DATABASE = 'ecommerce';
-const URI = `mongodb://localhost:27017/${DATABASE}`;
+const URI = configDB.mongodb.connectTo(DATABASE);
 
 class ContenedorMongoose {
     constructor(collection, schema) {
@@ -29,7 +31,7 @@ class ContenedorMongoose {
             newItem = await this.model.create(objeto);
             await this.desconectarDB();
         } catch (err) {
-            console.log(`Hubo un error al guardar: ${err.message}`);
+            logger.error(`Hubo un error al guardar: ${err.message}`);
             return -1;
         }
 
@@ -45,7 +47,7 @@ class ContenedorMongoose {
             updatedItem = await this.model.findByIdAndUpdate({_id: id}, objeto, {new: true});
             await this.desconectarDB();
         } catch (err) {
-            console.log(`Hubo un error al modificar: ${err.message}`);
+            logger.error(`Hubo un error al modificar: ${err.message}`);
             return -1;
         }
 
@@ -66,7 +68,7 @@ class ContenedorMongoose {
             objeto = await this.model.findOne({_id: id}, {__v: 0});
             await this.desconectarDB();
         } catch (err) {
-            console.log(`Hubo un error al obtener el item: ${err.message}`);
+            logger.error(`Hubo un error al obtener el item: ${err.message}`);
             return -1;
         }
 
@@ -82,7 +84,7 @@ class ContenedorMongoose {
             arrayObjetos = await this.model.find({}, {__v: 0}).lean();
             await this.desconectarDB();
         } catch (err) {
-            console.log(`Hubo un error al obtener todos los items: ${err.message}`);
+            logger.error(`Hubo un error al obtener todos los items: ${err.message}`);
             return -1;
         }
 
@@ -97,7 +99,7 @@ class ContenedorMongoose {
             await this.model.deleteOne({_id: id});
             await this.desconectarDB();
         } catch (err) {
-            console.log(`Hubo un error al eliminar: ${err.message}`);
+            logger.error(`Hubo un error al eliminar: ${err.message}`);
             return false;
         }
 
@@ -114,7 +116,7 @@ class ContenedorMongoose {
             await this.model.findByIdAndUpdate({_id: objeto.id}, objeto, {new: true});
             await this.desconectarDB();
         } catch (err) {
-            console.log(`Hubo un error al agregar el item al array: ${err.message}`);
+            logger.error(`Hubo un error al agregar el item al array: ${err.message}`);
             return false;
         }
 
@@ -137,7 +139,7 @@ class ContenedorMongoose {
             await this.model.findByIdAndUpdate({_id: objeto.id}, objeto, {new: true});
             await this.desconectarDB();
         } catch (err) {
-            console.log(`Hubo un error al eliminar el item del array: ${err.message}`);
+            logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);
             return false;
         }
 
