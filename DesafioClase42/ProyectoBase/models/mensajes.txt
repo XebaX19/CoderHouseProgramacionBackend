@@ -1,0 +1,30 @@
+[
+  {
+    "email": "juana@gmail.com",
+    "mensaje": "Hola",
+    "time": "30/03/2022 12:45:45",
+    "timestamp": "2022-03-30T15:45:45.966Z",
+    "id": 1
+  },
+  {
+    "email": "juana@gmail.com",
+    "mensaje": "Como andas?",
+    "time": "30/03/2022 12:45:57",
+    "timestamp": "2022-03-30T15:45:57.830Z",
+    "id": 2
+  },
+  {
+    "email": "pedro@gmail.com",
+    "mensaje": "Todo bien Juana!",
+    "time": "30/03/2022 12:45:59",
+    "timestamp": "2022-03-30T15:45:59.439Z",
+    "id": 3
+  },
+  {
+    "email": "pedro@gmail.com",
+    "mensaje": "Vos?",
+    "time": "30/03/2022 12:46:11",
+    "timestamp": "2022-03-30T15:46:11.439Z",
+    "id": 4
+  }
+]
