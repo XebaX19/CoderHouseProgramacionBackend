@@ -1,0 +1,50 @@
+query obtenerProductos {
+  getProductos {
+    title,
+    price,
+    thumbnail
+  }
+}
+
+query obtenerProductoById {
+  getProducto(id: "5ad4ea50-c30a-4fb4-937d-264de862da48") {
+    id,
+    title,
+    price,
+    thumbnail
+  }
+}
+
+mutation crearProducto {
+  createProducto(datos: {
+    title: "NuevoProducto",
+    price: 12.22,
+    thumbnail: "nuevoThumbnail"
+  }) {
+    id,
+    title,
+    price,
+    thumbnail
+  }
+}
+
+mutation actualizarProducto {
+  updateProducto(
+    id: "5ad4ea50-c30a-4fb4-937d-264de862da48", 
+    datos: { title: "productoActualizado", price: 12.55, thumbnail: "thumbnailActualizado"}
+  ) {
+    id,
+    title,
+    price,
+    thumbnail
+  }
+}
+
+mutation eliminarProducto {
+  deleteProducto(id: "5ad4ea50-c30a-4fb4-937d-264de862da48") {
+    id,
+    title,
+    price,
+    thumbnail
+  }
+}
