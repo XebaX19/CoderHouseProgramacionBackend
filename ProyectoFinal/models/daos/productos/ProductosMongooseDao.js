@@ -11,7 +11,8 @@ const productoSchema = new Schema({
     codigo: { type: String, required: true, unique: true, sparse: true },
     fotoUrl: { type: String },
     precio: { type: Number, min: 0, required: true },
-    stock: { type: Number, min: 0 }
+    stock: { type: Number, min: 0 },
+    categoria: { type: String }
 });
 
 class ProductosMongooseDao extends ContenedorMongoose {

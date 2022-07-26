@@ -1,0 +1,38 @@
+<div class="container mt-3 jumbotron alert-success">
+    <form action="/logout" method="post">
+        {{#if avatarUsuario}}
+            <span><img src="./avatars/{{ avatarUsuario }}" style="clip-path: circle();" alt="{{ nombreUsuario }}" width="80" height="80"></span>
+        {{/if}}
+        <h3 style="display: inline-block; margin: 0;" class="text-green">Bienvenido <b>{{{ emailUsuario }}}</b></h3>
+        <input type="submit" value="Logout" class="text-green btn btn-warning" style="margin-bottom: 1%; float: right;">
+        <br><br>
+        <ul>
+            <li>Nombre: <b>{{{ nombreUsuario }}}</b></li>
+            <li>Dirección: <b>{{{ direccionUsuario }}}</b></li>
+            <li>Edad: <b>{{{ edadUsuario }}}</b></li>
+            <li>Teléfono: <b>{{{ nroTelefonoUsario }}}</b></li>
+        </ul>
+    </form>
+</div>
+<div class="container mt-3 jumbotron">
+    <h3 class="text-primary">Productos cargados</h3>
+    <div id="divProductos"></div>
+</div>
+<div class="container mt-3 jumbotron">
+    <h3 class="text-primary">Centro de Mensajes</h3>
+    <form id="formMensajes">
+        <div class="form-group row g-2">
+            <input type="hidden" name="email" id="email" placeholder="Ingresa tu e-mail" class="form-control"
+                style="width: 40%; margin-left: 1.3%;" value="{{{ emailUsuario }}}" required>
+        </div>
+        <div class="form-group row g-2">
+            <input type="text" name="mensaje" id="mensaje" placeholder="Ingresa tu consulta" class="form-control"
+                style="width: 40%; margin-left: 1.3%;" required>
+            <input type="submit" value="Enviar" class="btn btn-success" style="margin-left: 1%;">
+        </div>
+    </form>
+    <hr>
+    <div class="row p-3 ">
+        <div class="chat-body" id="divMensajes"></div>
+    </div>
+</div>

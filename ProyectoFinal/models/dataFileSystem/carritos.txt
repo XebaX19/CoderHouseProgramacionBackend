@@ -1,12 +1,146 @@
 [
   {
-    "productos": [],
-    "timestamp": "2022-03-28T17:53:55.317Z",
-    "id": 1
+    "estado": "finalizado",
+    "productos": [
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      },
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      },
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      },
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      },
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      },
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      },
+      {
+        "nombre": "Calculadora",
+        "descripcion": "Calculadora cientifica",
+        "codigo": "P001",
+        "fotoUrl": "https://exitocol.vtexassets.com/arquivos/ids/257195/Calculadora-Cientifica-Graficadora.jpg",
+        "precio": 1456.15,
+        "stock": 12,
+        "categoria": "Varios",
+        "timestamp": "2022-03-28T17:51:56.043Z",
+        "_id": 1
+      }
+    ],
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "timestamp": "2022-07-25T15:49:58.035Z",
+    "_id": 1
   },
   {
+    "estado": "pendiente",
     "productos": [],
-    "timestamp": "2022-03-28T17:53:58.057Z",
-    "id": 3
+    "emailUsuario": "otrocarrito@gmail.com",
+    "timestamp": "2022-07-23T19:54:22.995Z",
+    "_id": 2
+  },
+  {
+    "estado": "finalizado",
+    "productos": [
+      {
+        "nombre": "Reloj",
+        "descripcion": "Reloj de pared",
+        "codigo": "P002",
+        "fotoUrl": "https://us.123rf.com/450wm/monticello/monticello1911/monticello191100379/135078958-reloj-de-pared-aislado-sobre-fondo-blanco-nueve-.jpg?ver=6",
+        "precio": 974.99,
+        "stock": 7,
+        "categoria": "Varios",
+        "timestamp": "2022-03-28T17:52:56.043Z",
+        "_id": 2
+      },
+      {
+        "nombre": "Reloj",
+        "descripcion": "Reloj de pared",
+        "codigo": "P002",
+        "fotoUrl": "https://us.123rf.com/450wm/monticello/monticello1911/monticello191100379/135078958-reloj-de-pared-aislado-sobre-fondo-blanco-nueve-.jpg?ver=6",
+        "precio": 974.99,
+        "stock": 7,
+        "categoria": "Varios",
+        "timestamp": "2022-03-28T17:52:56.043Z",
+        "_id": 2
+      },
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      },
+      {
+        "nombre": "Agenda",
+        "descripcion": "Agenda 2022",
+        "codigo": "P003",
+        "fotoUrl": "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/AGYRBXKZQH6C4KYQU6IGD2BDIE.jpg",
+        "precio": 674.35,
+        "stock": 22,
+        "categoria": "Libreria",
+        "timestamp": "2022-03-28T17:53:56.043Z",
+        "_id": 3
+      }
+    ],
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "timestamp": "2022-07-26T03:18:15.715Z",
+    "_id": 3
   }
 ]

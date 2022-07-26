@@ -16,11 +16,11 @@ class ContenedorFileSystem {
 
             if (objetosTxt.length > 0 && objetosTxt != '[]') {
                 arrayObjetos = JSON.parse(objetosTxt);
-                id = arrayObjetos[arrayObjetos.length - 1].id + 1;
+                id = arrayObjetos[arrayObjetos.length - 1]._id + 1;
             }
 
             objeto.timestamp = new Date();
-            objeto.id = id;
+            objeto._id = id;
             arrayObjetos.push(objeto);
             await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
 
@@ -35,7 +35,7 @@ class ContenedorFileSystem {
     async update(id, objeto) {
         //Recibe un id y objeto, lo busca en el archivo, actualiza y devuelve el item actualizado
         objeto.timestamp = new Date();
-        objeto.id = +id;
+        objeto._id = +id;
 
         try {
             const objetosTxt = await this.fs.promises.readFile(`./models/dataFileSystem/${this.nombreArchivo}`, 'utf-8');
@@ -44,7 +44,7 @@ class ContenedorFileSystem {
             if (objetosTxt.length > 0 && objetosTxt != '[]') {
                 arrayObjetos = JSON.parse(objetosTxt);
 
-                const itemIndex = arrayObjetos.findIndex(item => item.id === +id);
+                const itemIndex = arrayObjetos.findIndex(item => item._id === +id);
                 arrayObjetos[itemIndex] = objeto;
 
                 await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
@@ -69,8 +69,37 @@ class ContenedorFileSystem {
                 arrayObjetos = JSON.parse(objetosTxt);
 
                 for (const obj of arrayObjetos) {
-                    if (obj.id == id) {
+                    if (obj._id == id) {
                         objeto = obj;
+                    }
+                }
+            }
+        } catch (err) {
+            //Si entra al catch porque no existe el archivo, no muestro error...devuelve array vacío
+            //Sólo muestro el error si se debe a otro problema
+            if (err.code != 'ENOENT') {
+                logger.error(`Hubo un error al obtener el objeto: ${err.message}`);
+                return -1;
+            }
+        }
+
+        return objeto;
+    }
+
+    async getByParametro(parametro, valor) {
+        //Recibe parametro y valor, devuelve objetos con ese valor del parámetro o [] si no encuentra nada
+        let objeto = [];
+
+        try {
+            const objetosTxt = await this.fs.promises.readFile(`./models/dataFileSystem/${this.nombreArchivo}`, 'utf-8');
+            let arrayObjetos = [];
+
+            if (objetosTxt.length > 0 && objetosTxt != '[]') {
+                arrayObjetos = JSON.parse(objetosTxt);
+
+                for (const obj of arrayObjetos) {
+                    if (obj[parametro] == valor) {
+                        objeto.push(obj);
                     }
                 }
             }
@@ -105,13 +134,13 @@ class ContenedorFileSystem {
             }
         }
 
-        return arrayObjetos;
+        return arrayObjetos.sort((a, b) => b._id - a._id);
     }
 
     async deleteById(id) {
         //Elimina del archivo el objeto con el id buscado
         let eliminado = false;
-        
+   
         try {
             const objetosTxt = await this.fs.promises.readFile(`./models/dataFileSystem/${this.nombreArchivo}`, 'utf-8');
             let arrayObjetos = [];
@@ -120,7 +149,7 @@ class ContenedorFileSystem {
                 arrayObjetos = JSON.parse(objetosTxt);
 
                 for (let i = 0; i < arrayObjetos.length; i++) {
-                    if (arrayObjetos[i].id == id) {
+                    if (arrayObjetos[i]._id === +id) {
                         arrayObjetos.splice(i, 1);
                         await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
                         eliminado = true;
@@ -147,7 +176,7 @@ class ContenedorFileSystem {
             if (objetosTxt.length > 0 && objetosTxt != '[]') {
                 arrayObjetos = JSON.parse(objetosTxt);
 
-                const itemIndex = arrayObjetos.findIndex(elemento => elemento.id === objeto.id);
+                const itemIndex = arrayObjetos.findIndex(elemento => elemento._id === objeto._id);
                 arrayObjetos[itemIndex] = objeto;
 
                 await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));
@@ -166,7 +195,7 @@ class ContenedorFileSystem {
         
         try {
 
-            const itemIndexEliminar = objeto[nombreArray].findIndex(elemento => elemento.id === item.id);
+            const itemIndexEliminar = objeto[nombreArray].findIndex(elemento => elemento._id === item._id);
             if (itemIndexEliminar === -1) {
                 return -1;
             }
@@ -178,7 +207,7 @@ class ContenedorFileSystem {
             if (objetosTxt.length > 0 && objetosTxt != '[]') {
                 arrayObjetos = JSON.parse(objetosTxt);
 
-                const itemIndex = arrayObjetos.findIndex(elemento => elemento.id === objeto.id);
+                const itemIndex = arrayObjetos.findIndex(elemento => elemento._id === objeto._id);
                 arrayObjetos[itemIndex] = objeto;
 
                 await this.fs.promises.writeFile(`./models/dataFileSystem/${this.nombreArchivo}`, JSON.stringify(arrayObjetos, null, 2));

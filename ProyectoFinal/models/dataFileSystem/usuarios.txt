@@ -1,0 +1,35 @@
+[
+  {
+    "email": "seba.bellesi@gmail.com",
+    "password": "$2b$10$IDhLq5yK8V7PRuhDr/XBzOobmx8UBpqNfDgHkwoAHtm1vD/yNn0p2",
+    "nombre": "Seba Bellesi",
+    "direccion": "Entre rios 988",
+    "edad": "34",
+    "nroTelefono": "+5493364238488",
+    "avatar": "seba.bellesi@gmail.com.png",
+    "timestamp": "2022-07-22T03:34:42.239Z",
+    "_id": 1
+  },
+  {
+    "email": "sinavatar@gmail.com",
+    "password": "$2b$10$IDhLq5yK8V7PRuhDr/XBzOobmx8UBpqNfDgHkwoAHtm1vD/yNn0p2",
+    "nombre": "Sin Avatar",
+    "direccion": "Entre rios 988",
+    "edad": "34",
+    "nroTelefono": "+5493364238488",
+    "avatar": "",
+    "timestamp": "2022-07-23T03:34:42.239Z",
+    "_id": 2
+  },
+  {
+    "email": "sebab1988@gmail.com",
+    "password": "$2b$10$IDhLq5yK8V7PRuhDr/XBzOobmx8UBpqNfDgHkwoAHtm1vD/yNn0p2",
+    "nombre": "Admin",
+    "direccion": "Admin",
+    "edad": "34",
+    "nroTelefono": "+5493364238488",
+    "avatar": "",
+    "timestamp": "2022-07-24T03:34:42.239Z",
+    "_id": 3
+  }
+]

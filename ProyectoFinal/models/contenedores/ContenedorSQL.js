@@ -12,12 +12,33 @@ class ContenedorSQL {
         let newItem = {};
 
         if (objeto['productos'] != undefined && objeto['productos'].length === 0) {
-            objeto = {};
+            delete objeto['productos'];
         }
 
         try {
-            newItem = await this.knex(this.tabla).insert(objeto);
-            objeto.id = newItem[0];
+            if (this.tabla === 'ordenes') {
+                const orden = { 
+                    emailUsuario: objeto.emailUsuario, 
+                    timestamp: new Date() 
+                };
+
+                newItem = await this.knex(this.tabla).insert(orden);
+                objeto._id = newItem[0];
+
+                objeto.items.forEach(async item => {
+                    const nuevoItem = { 
+                        id_orden: objeto._id,
+                        id_producto: item.idProducto,
+                        descripcion: item.descripcion,
+                        precio: item.precio,
+                        cantidad: item.cantidad
+                    }
+                    await this.knex('ordenes_productos').insert(nuevoItem);
+                });
+            } else {
+                newItem = await this.knex(this.tabla).insert(objeto);
+                objeto._id = newItem[0];
+            }
         } catch (err) {
             logger.error(`Hubo un error al guardar: ${err.message}`);
             return -1;
@@ -29,9 +50,13 @@ class ContenedorSQL {
     async update(id, objeto) {
         //Recibe un id y objeto, lo actualiza y devuelve el item actualizado
 
+        if (this.tabla === 'carritos') {
+            delete objeto['productos'];
+        }
+
         try {
-            await this.knex.from(this.tabla).where({id}).update(objeto);
-            objeto.id = id;
+            await this.knex.from(this.tabla).where({ _id: id}).update(objeto);
+            objeto._id = id;
         } catch (err) {
             logger.error(`Hubo un error al modificar: ${err.message}`);
             return -1;
@@ -47,7 +72,7 @@ class ContenedorSQL {
         let productos = [];
 
         try {
-            objeto = await this.knex.from(this.tabla).select('*').where('id', '=', id).first();
+            objeto = await this.knex.from(this.tabla).select('*').where('_id', '=', id).first();
             if (objeto === undefined) {
                 objeto = null;
             } else {
@@ -58,7 +83,7 @@ class ContenedorSQL {
                         productosId = productosId.map(a => a.id_producto);
 
                         let promise = productosId.map(async elementId => {
-                            return await this.knex.from('productos').select('*').where('id', '=', elementId).first();
+                            return await this.knex.from('productos').select('*').where('_id', '=', elementId).first();
                         });
 
                         productos = await Promise.all(promise);
@@ -73,6 +98,20 @@ class ContenedorSQL {
         }
 
         return objeto;
+    }
+
+    async getByParametro(parametro, valor) {
+        //Devuelve un array con los objetos presentes en la BD
+        let arrayObjetos = [];
+
+        try {
+            arrayObjetos = await this.knex.from(this.tabla).select('*').where(parametro, '=', valor);
+        } catch (err) {
+            logger.error(`Hubo un error al obtener todos los items: ${err.message}`);
+            return -1;
+        }
+
+        return arrayObjetos;
     }
 
     async getAll() {
@@ -93,7 +132,7 @@ class ContenedorSQL {
         //Elimina del archivo el objeto con el id buscado
 
         try {
-            await this.knex.from(this.tabla).where({id}).del();
+            await this.knex.from(this.tabla).where({_id: id}).del();
         } catch (err) {
             logger.error(`Hubo un error al eliminar: ${err.message}`);
             return false;
@@ -104,36 +143,41 @@ class ContenedorSQL {
 
     async addItemToArray(nombreArray, objeto, item) {
         //Agrega item a un array del objeto, devuelve true/false si el item fue agregado o no
-
+        let resultado = false;
         try {
-            const newItem = {id_carrito: objeto.id, id_producto: item.id};
-            await this.knex('carrito_productos').insert(newItem);
+            if (nombreArray === 'productos') {
+                const newItem = {id_carrito: objeto._id, id_producto: item._id};
+                await this.knex('carrito_productos').insert(newItem);
+                resultado = true;
+            }
         } catch (err) {
             logger.error(`Hubo un error al agregar el item al array: ${err.message}`);
             return false;
         }
 
-        return true;
+        return resultado;
     }
 
     async removeItemFromArray(nombreArray, objeto, item) {
         //Elimina item de un array del objeto, devuelve true/false si el item fue eliminado o no
         //Si no existe el item en el array devuelve -1
-
+        let resultado = false;
+        
         try {
-            const itemEliminar = await this.knex.from('carrito_productos').select('*').where({id_carrito: objeto.id, id_producto: item.id}).first();
+            const itemEliminar = await this.knex.from('carrito_productos').select('*').where({id_carrito: objeto._id, id_producto: item._id}).first();
             
             if (itemEliminar === undefined) {
                 return -1;
             }
 
-            await this.knex.from('carrito_productos').where({id: itemEliminar.id}).del();
+            await this.knex.from('carrito_productos').where({_id: itemEliminar._id}).del();
+            resultado = true;
         } catch (err) {
             logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);
             return false;
         }
 
-        return true;
+        return resultado;
     }
 }
 

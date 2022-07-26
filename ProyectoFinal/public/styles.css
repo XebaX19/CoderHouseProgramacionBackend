@@ -29,3 +29,51 @@
   background-color: black;
   color: #ef5350;
 }
+
+.chat-body {
+  height: 440px;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.my-messages-container .my-messages span:first-child {
+  font-size: 10px;
+}
+
+.my-messages-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.my-messages-container .my-messages {
+  width: 50%;
+  overflow-x: auto;
+  border-radius: 8px 0 0 8px;
+  padding: 5px 8px;
+  margin-right: 10px;
+  background-color: #CCCCCC;
+}
+
+.my-messages-container .my-messages span:first-child {
+  font-size: 10px;
+}
+
+.other-messages-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.other-messages-container .other-messages {
+  width: 50%;
+  overflow-x: auto;
+  border-radius: 0 8px 8px 0;
+  padding: 5px 8px;
+  background-color: #9ec5fe;
+}
+
+.other-messages-container .other-messages span:first-child {
+  font-size: 10px;
+}

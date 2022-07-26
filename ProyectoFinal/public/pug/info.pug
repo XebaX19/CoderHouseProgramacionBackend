@@ -1,0 +1,11 @@
+extends ./layout
+block main
+    div
+        h1(style="color:green; font-family:Consolas") Configuración del servidor
+        ul(style="color:green; font-family:Consolas; font-size:16px")
+            li!= `Path de ejecución => <b style="color:white;">${ pathEjecucion }</b>`
+            li!= `Nombre de la plataforma (sistema operativo) => <b style="color:white;">${ nombrePlataforma }</b>`
+            li!= `Process id => <b style="color:white;">${ processId }</b>`
+            li!= `Versión de Node.js => <b style="color:white;">${ versionNode }</b>`
+            li!= `Carpeta del proyecto => <b style="color:white;">${ carpetaProyecto }</b>`
+            li!= `Memoria total reservada (rss) => <b style="color:white;">${ rss }</b>`

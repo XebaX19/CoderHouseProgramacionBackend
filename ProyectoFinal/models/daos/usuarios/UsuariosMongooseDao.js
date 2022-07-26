@@ -21,9 +21,9 @@ class UsuariosMongooseDao extends ContenedorMongoose {
     }
 
     async getByEmail(email) {
-        await this.conectarDB();
+        //await this.conectarDB();
         const document = await this.model.findOne({ email }, { __v: 0 });
-        await this.desconectarDB();
+        //await this.desconectarDB();
 
         if (!document) {
             const errorMessage = `Wrong username or password`;
@@ -34,6 +34,4 @@ class UsuariosMongooseDao extends ContenedorMongoose {
     }
 }
 
-module.exports = {
-    UsuariosMongooseDao
-};
+module.exports = UsuariosMongooseDao;

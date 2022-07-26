@@ -1,0 +1,44 @@
+[
+  {
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "mensaje": "Hola!",
+    "tipo": "usuario",
+    "timestamp": "2022-07-23T18:17:06.536Z",
+    "_id": 1
+  },
+  {
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "mensaje": "Como están?",
+    "tipo": "usuario",
+    "timestamp": "2022-07-23T18:17:11.738Z",
+    "_id": 2
+  },
+  {
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "mensaje": "Quisiera hacer una consulta...",
+    "tipo": "usuario",
+    "timestamp": "2022-07-23T18:17:19.228Z",
+    "_id": 3
+  },
+  {
+    "emailUsuario": "sinavatar@gmail.com",
+    "mensaje": "hablando sin avatar",
+    "tipo": "usuario",
+    "timestamp": "2022-07-24T19:33:34.579Z",
+    "_id": 4
+  },
+  {
+    "emailUsuario": "sinavatar@gmail.com",
+    "mensaje": "no tendría que salir en user seba.bellesi@gmail.com",
+    "tipo": "usuario",
+    "timestamp": "2022-07-24T19:33:42.701Z",
+    "_id": 5
+  },
+  {
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "mensaje": "Hola Sebastián, en breve nos comunicaremos con vos...",
+    "tipo": "sistema",
+    "timestamp": "2022-07-25T14:29:54.877Z",
+    "_id": 6
+  }
+]

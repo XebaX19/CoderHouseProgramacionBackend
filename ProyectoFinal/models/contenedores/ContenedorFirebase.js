@@ -59,6 +59,32 @@ class ContenedorFirebase {
         return objeto;
     }
 
+    async getByParametro(parametro, valor) {
+        //Devuelve un array con los objetos presentes en la BD para el paramero y valor indicados
+        let arrayObjetos = [];
+        let arrayObjetosFiltrado = [];
+
+        try {
+            const docRef = await this.query.get();
+            const documents = docRef.docs;
+            arrayObjetos = documents.map(document => ({ 
+              ...document.data(),
+              id: document.id
+            }));
+
+            for (const obj of arrayObjetos) {
+                if (obj[parametro] == valor) {
+                    arrayObjetosFiltrado.push(obj);
+                }
+            }
+        } catch (err) {
+            logger.error(`Hubo un error al obtener todos los items: ${err.message}`);
+            return -1;
+        }
+
+        return arrayObjetosFiltrado;
+    }
+
     async getAll() {
         //Devuelve un array con los objetos presentes en la BD
         let arrayObjetos = [];

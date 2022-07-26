@@ -6,8 +6,9 @@ const Schema = mongoose.Schema;
 const coleccion = 'carritos';
 
 const carritoSchema = new Schema({
-    timestamp: { type : Date, required: true, default: Date.now() },
-    productos: { type: [ProductosMongoose.schema]}
+    emailUsuario: { type: String, required: true },
+    productos: { type: [] || [ProductosMongoose.schema] },
+    estado: { type: String, required: true, default: 'pendiente' }
 });
 
 class CarritoMongooseDao extends ContenedorMongoose {

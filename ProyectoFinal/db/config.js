@@ -1,5 +1,5 @@
 const path = require('path');
-const env = require('../env.config');
+const env = require('../config/env.config');
 
 module.exports = {
     mariaDB: {

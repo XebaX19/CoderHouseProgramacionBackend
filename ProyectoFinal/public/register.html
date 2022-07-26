@@ -15,21 +15,26 @@
       referrerpolicy="no-referrer"
       defer
     ></script>
+    <script src="./js/sweetalert2.all.min.js" defer></script> 
     <!-- JS -->
-    <script src="./main.js" defer></script>
+    <script src="./js/main.js" defer></script>
 </head>
 <body>
 
     <div class="container mt-3 jumbotron">
         <h3 class="text-primary">Registro de Usuario</h3>
         <br>
-        <form id="formRegister" enctype="multipart/form-data" method="post" action="/register">
+        <form id="formRegister" enctype="multipart/form-data" method="post" action="/register" onsubmit="return verificaPassword()">
             <div class="form-group row g-2">
                 <input type="text" name="username" id="nombreUsuario" placeholder="Ingresa tu email" class="form-control"
                     style="width: 40%; margin-left: 1.3%;" required>
             </div>
             <div class="form-group row g-2">
-                <input type="password" name="password" id="passwordUsuario" placeholder="Ingresa tu password" class="form-control"
+                <input type="password" name="password" id="passwordUsuario" onfocusout="verificaPassword()" placeholder="Ingresa tu password" class="form-control"
+                    style="width: 40%; margin-left: 1.3%;" required>
+            </div>
+            <div class="form-group row g-2">
+                <input type="password" name="passwordConfirm" id="passwordUsuarioConfirm" onfocusout="verificaPassword()" placeholder="Confirma tu password" class="form-control"
                     style="width: 40%; margin-left: 1.3%;" required>
             </div>
             <div class="form-group row g-2">

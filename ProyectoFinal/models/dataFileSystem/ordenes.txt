@@ -1,0 +1,40 @@
+[
+  {
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "items": [
+      {
+        "idProducto": 3,
+        "descripcion": "Agenda",
+        "precio": 674.35,
+        "cantidad": 6
+      },
+      {
+        "idProducto": 1,
+        "descripcion": "Calculadora",
+        "precio": 1456.15,
+        "cantidad": 1
+      }
+    ],
+    "timestamp": "2022-07-25T15:49:58.033Z",
+    "_id": 1
+  },
+  {
+    "emailUsuario": "seba.bellesi@gmail.com",
+    "items": [
+      {
+        "idProducto": 2,
+        "descripcion": "Reloj",
+        "precio": 974.99,
+        "cantidad": 2
+      },
+      {
+        "idProducto": 3,
+        "descripcion": "Agenda",
+        "precio": 674.35,
+        "cantidad": 2
+      }
+    ],
+    "timestamp": "2022-07-26T03:18:15.713Z",
+    "_id": 2
+  }
+]

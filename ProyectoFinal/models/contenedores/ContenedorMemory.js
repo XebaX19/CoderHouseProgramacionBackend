@@ -9,12 +9,12 @@ class ContenedorMemory {
         //Recibe un objeto, lo guarda en el archivo y devuelve el item creado
         let id = 0;
         if(this.list.length > 0) {
-            id = this.list[this.list.length -1].id;
+            id = this.list[this.list.length -1]._id;
         }
 
         try {
             objeto.timestamp = new Date();
-            objeto.id = id+1;
+            objeto._id = id+1;
             this.list.push(objeto);
         } catch (err) {
             logger.error(`Hubo un error al guardar: ${err.message}`);
@@ -27,10 +27,10 @@ class ContenedorMemory {
     async update(id, objeto) {
         //Recibe un id y objeto, lo busca en el archivo, actualiza y devuelve el item actualizado
         objeto.timestamp = new Date();
-        objeto.id = +id;
+        objeto._id = +id;
 
         try {
-            const itemIndex = this.list.findIndex(item => item.id === +id);
+            const itemIndex = this.list.findIndex(item => item._id === +id);
             if (itemIndex === -1) {
                 return -1;
             }
@@ -49,7 +49,7 @@ class ContenedorMemory {
         let objeto = null;
 
         try {
-            const itemIndex = this.list.findIndex(item => item.id === +id);
+            const itemIndex = this.list.findIndex(item => item._id === +id);
             if (itemIndex === -1) {
                 return objeto;
             }
@@ -61,6 +61,26 @@ class ContenedorMemory {
         }
 
         return objeto;
+    }
+
+    async getByParametro(parametro, valor) {
+        //Devuelve un array con los objetos presentes en el archivo para el paramero y valor indicados
+        let arrayObjetos = [];
+
+        try {
+            if (this.list.length > 0) {
+                for (const obj of this.list) {
+                    if (obj[parametro] == valor) {
+                        arrayObjetos.push(obj);
+                    }
+                }
+            }
+        } catch (err) {
+            logger.error(`Hubo un error al obtener todos los objetos: ${err.message}`);
+            return -1;
+        }
+
+        return arrayObjetos;
     }
 
     async getAll() {
@@ -83,7 +103,7 @@ class ContenedorMemory {
         //Elimina del archivo el objeto con el id buscado
 
         try {
-            const itemIndex = this.list.findIndex(item => item.id === +id);
+            const itemIndex = this.list.findIndex(item => item._id === +id);
             if (itemIndex === -1) {
                 return false;
             }
@@ -103,7 +123,7 @@ class ContenedorMemory {
         try {
             objeto[nombreArray].push(item);
 
-            const itemIndex = this.list.findIndex(elemento => elemento.id === objeto.id);
+            const itemIndex = this.list.findIndex(elemento => elemento._id === objeto._id);
             if (itemIndex === -1) {
                 return -1;
             }
@@ -123,13 +143,13 @@ class ContenedorMemory {
         
         try {
 
-            const itemIndexEliminar = objeto[nombreArray].findIndex(elemento => elemento.id === item.id);
+            const itemIndexEliminar = objeto[nombreArray].findIndex(elemento => elemento._id === item._id);
             if (itemIndexEliminar === -1) {
                 return -1;
             }
             objeto[nombreArray].splice(itemIndexEliminar, 1);
 
-            const itemIndex = this.list.findIndex(elemento => elemento.id === objeto.id);
+            const itemIndex = this.list.findIndex(elemento => elemento._id === objeto._id);
             this.list[itemIndex] = objeto;
         } catch (err) {
             logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);

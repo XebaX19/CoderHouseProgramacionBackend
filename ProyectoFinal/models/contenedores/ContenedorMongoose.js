@@ -8,6 +8,7 @@ const URI = configDB.mongodb.connectTo(DATABASE);
 class ContenedorMongoose {
     constructor(collection, schema) {
         this.model = mongoose.model(collection, schema);
+        this.conectarDB();
     }
 
     async conectarDB () {
@@ -21,15 +22,11 @@ class ContenedorMongoose {
     async save(objeto) {
         //Recibe un objeto, lo guarda en la BD y devuelve el item generado
         let newItem = {};
-
-        if (objeto['productos'] != undefined && objeto['productos'].length === 0) {
-            objeto = {};
-        }
-        
+     
         try {
-            await this.conectarDB();
+            //await this.conectarDB();
             newItem = await this.model.create(objeto);
-            await this.desconectarDB();
+            //await this.desconectarDB();
         } catch (err) {
             logger.error(`Hubo un error al guardar: ${err.message}`);
             return -1;
@@ -43,9 +40,9 @@ class ContenedorMongoose {
         let updatedItem = {};
 
         try {
-            await this.conectarDB();
+            //await this.conectarDB();
             updatedItem = await this.model.findByIdAndUpdate({_id: id}, objeto, {new: true});
-            await this.desconectarDB();
+            //await this.desconectarDB();
         } catch (err) {
             logger.error(`Hubo un error al modificar: ${err.message}`);
             return -1;
@@ -64,9 +61,9 @@ class ContenedorMongoose {
         }
 
         try {
-            await this.conectarDB();
+            //await this.conectarDB();
             objeto = await this.model.findOne({_id: id}, {__v: 0});
-            await this.desconectarDB();
+            //await this.desconectarDB();
         } catch (err) {
             logger.error(`Hubo un error al obtener el item: ${err.message}`);
             return -1;
@@ -75,14 +72,30 @@ class ContenedorMongoose {
         return objeto;
     }
 
+    async getByParametro(parametro, valor) {
+        //Devuelve un array con los objetos presentes en la BD para el paramero y valor indicados
+        let arrayObjetos = [];
+
+        try {
+            //await this.conectarDB();
+            arrayObjetos = await this.model.find({ [parametro]: valor}, {__v: 0}).lean();
+            //await this.desconectarDB();
+        } catch (err) {
+            logger.error(`Hubo un error al obtener todos los items: ${err.message}`);
+            return -1;
+        }
+
+        return arrayObjetos;
+    }
+
     async getAll() {
         //Devuelve un array con los objetos presentes en la BD
         let arrayObjetos = [];
 
         try {
-            await this.conectarDB();
-            arrayObjetos = await this.model.find({}, {__v: 0}).lean();
-            await this.desconectarDB();
+            //await this.conectarDB();
+            arrayObjetos = await this.model.find({}, {__v: 0}).sort({"_id":-1}).lean();
+            //await this.desconectarDB();
         } catch (err) {
             logger.error(`Hubo un error al obtener todos los items: ${err.message}`);
             return -1;
@@ -95,9 +108,9 @@ class ContenedorMongoose {
         //Elimina del archivo el objeto con el id buscado
 
         try {
-            await this.conectarDB();
+            //await this.conectarDB();
             await this.model.deleteOne({_id: id});
-            await this.desconectarDB();
+            //await this.desconectarDB();
         } catch (err) {
             logger.error(`Hubo un error al eliminar: ${err.message}`);
             return false;
@@ -112,9 +125,9 @@ class ContenedorMongoose {
         try {
             objeto[nombreArray].push(item);
 
-            await this.conectarDB();
+            //await this.conectarDB();
             await this.model.findByIdAndUpdate({_id: objeto.id}, objeto, {new: true});
-            await this.desconectarDB();
+            //await this.desconectarDB();
         } catch (err) {
             logger.error(`Hubo un error al agregar el item al array: ${err.message}`);
             return false;
@@ -135,9 +148,9 @@ class ContenedorMongoose {
             }
             objeto[nombreArray].splice(itemIndexEliminar, 1);
             
-            await this.conectarDB();
+            //await this.conectarDB();
             await this.model.findByIdAndUpdate({_id: objeto.id}, objeto, {new: true});
-            await this.desconectarDB();
+            //await this.desconectarDB();
         } catch (err) {
             logger.error(`Hubo un error al eliminar el item del array: ${err.message}`);
             return false;
