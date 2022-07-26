@@ -265,7 +265,7 @@ if (!cluster.isPrimary || MODE === 'FORK') {
     //Creamos escuchador
     const connectedServer = httpServer.listen(env.PORT, () => {
         logger.info(`[${env.NODE_ENV.trim()}] Using "${env.PERS}" as project's data source`);
-        logger.info(`[${env.NODE_ENV.trim()}] Server is up and running on port => ${env.PORT}`);
+        logger.info(`[${env.NODE_ENV.trim()}] Server is up and running on ${env.HOST}:${env.PORT}`);
     });
 
     //Definimos manejo de errores
